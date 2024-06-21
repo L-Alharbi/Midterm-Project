@@ -4,10 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const addMovieForm = document.getElementById('addMovieForm'); 
     const movieTable = document.getElementById('movieTable');
     const tbody = movieTable.querySelector('tbody');
-
+    
+    
+    
     let movies= []; //empty array to store the movies
 
-
+  
     // this handles the submissions from the form
     addMovieForm.addEventListener('submit',function(event) {
         event.preventDefault();
@@ -50,8 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
         movies.splice(index, 1);
         renderTable();
     };
-    
+
+
 });
+
+
 
 
   
