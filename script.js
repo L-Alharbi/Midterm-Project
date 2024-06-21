@@ -1,62 +1,98 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
-    //variables to be captured and added
-    const addMovieForm = document.getElementById('addMovieForm'); 
+    const addMovieForm = document.getElementById('addMovieForm');
     const movieTable = document.getElementById('movieTable');
     const tbody = movieTable.querySelector('tbody');
-    
-    
-    
-    let movies= []; //empty array to store the movies
+    const suggestionsList = document.getElementById('suggestionsList');
 
-  
-    // this handles the submissions from the form
-    addMovieForm.addEventListener('submit',function(event) {
+    let movies = [];
+    const apiKey = '420f4cc7d9189cb0caa8d0aea3d77e85' ; 
+
+    // deals with the submitton
+    addMovieForm.addEventListener('submit', function(event) {
         event.preventDefault();
-
         const movieName = document.getElementById('movieName').value.trim();
         const movieRate = document.getElementById('movieRate').value.trim();
-
-        //add the movie to the array
-        movies.push({name: movieName, rating: movieRate});
-
-        //clears the inputs
+        movies.push({ name: movieName, rating: movieRate });
         addMovieForm.reset();
-
-        //refreshes the table
         renderTable();
     });
 
-
-    // functions that deals with entering the movies to the table
+    // add movie to the table
     function renderTable() {
-        
-        tbody.innerHTML = ''; // clears the rows first
-
-     
-        movies.forEach((item, index) => {   // adds to the rows
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.name}</td>
-            <td>${item.rating}</td>
-            <td>
-            <button type="button" class="btn btn-danger btn-sm" onclick="deleteItem(${index})">Delete</button>
-            </td>
-        `;
-        tbody.appendChild(row);
+        tbody.innerHTML = '';
+        movies.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td data-column="name" contenteditable="false">${item.name}</td>
+                <td data-column="rate" contenteditable="false">${item.rating}</td>
+                <td>
+                    <button type="button" class="btn btn-success btn-sm" onclick="editItem(${index}, this)">Edit</button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteItem(${index})">Delete</button>
+                </td>
+            `;
+            tbody.appendChild(row);
         });
     }
 
-    // the delete button 
+    // deletion button 
     window.deleteItem = function(index) {
         movies.splice(index, 1);
         renderTable();
     };
 
+    // editing button
+    window.editItem = function(index, button) {
+        const row = tbody.children[index];
+        const cells = row.querySelectorAll('td[data-column]');
 
+        if (button.textContent === 'Edit') {
+            cells.forEach(cell => {
+                cell.setAttribute('contenteditable', 'true');
+            });
+            
+            button.textContent = 'Save';
+        } else {
+
+            const updatedName = cells[0].textContent.trim();
+            const updatedRate = cells[1].textContent.trim();
+
+            movies[index] = { name: updatedName, rating: updatedRate };
+
+            cells.forEach(cell => {
+                cell.setAttribute('contenteditable', 'false');
+            });
+            button.textContent = 'Edit';
+        }
+    };
+    
+
+    // fetches the movie name from the db 
+    $('#movieName').on('input', function() {
+        const query = $(this).val().trim();
+        if (query === '') {
+            $('#suggestionsList').empty();
+            return;
+        }
+
+        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                $('#suggestionsList').empty();
+                data.results.slice(0, 5).forEach(movie => {
+                    const li = $('<li></li>').text(movie.title);
+                    li.on('click', function() {
+                        $('#movieName').val(movie.title);
+                        $('#suggestionsList').empty();
+                    });
+                    $('#suggestionsList').append(li);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                alert('Failed to fetch movie suggestions. Please try again later.');
+            });
+    });
+
+
+    
 });
-
-
-
-
-  
