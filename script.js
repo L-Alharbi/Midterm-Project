@@ -50,12 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
         movies.splice(index, 1);
         renderTable();
     };
-  
-
-
-
-
-
     
 });
 
