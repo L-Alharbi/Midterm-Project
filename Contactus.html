@@ -1,21 +1,43 @@
-<!DOCTYPE html>
-	<html>
-		<head>
-			<link rel="stylesheet" href="look.css">
-			<title>Contact Us</title>
-			<link rel="icon" type="image/x-icon" href="./images/icon.png">
-			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-			
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Movie list</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  
+</head>
+<body data-bs-theme="dark">
+ <!-- Navigation bar-->
+  <nav class="navbar sticky-top bg-body-tertiary">
+    <div class="container-fluid">
+      <ul class="nav">
+        <li class="nav-item">
+          <img src="./images/icon.png" alt="Logo" width="26" height="26" class="d-inline-block align-text-top">
+          <a class="navbar-brand" aria-current="page" href="./Index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="navbar-brand" href="./Aboutus.html">About us</a>
+        </li>
+        <li class="nav-item">
+          <a class="navbar-brand" href="./Contactus.html">Contact us</a>
+        </li>
+        <div class="form-check form-switch mx-4">
+          <input
+            class="form-check-input p-2"
+            type="checkbox"
+            role="switch"
+            id="flexSwitchCheckChecked"
+            checked
+            onclick="myFunction()"
+          />
+        </div>
+      </ul>
+    </div>
+  </nav>
 
-		</head>
-		<body>
-		<div class="container mt-3 bg-primary p-3">
-
-			<ul>
-			  <li><a href="./Homepage.html">Home</a></li>
-			  <li><a href="./Aboutus.html">About</a></li>
-			  <li><a href="./Contactus.html">Contact</a></li>
-			</ul>
+  	<div class="container mt-5">
 			
 			<!-- take username, email, phone number, a message -->
 			<div style="width: 30rem; margin: auto;">
@@ -52,7 +74,34 @@
 					
 				</form>
 				</div>
-			</div>
-			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-		</body>
-	</html>
+	</div>
+
+		
+
+
+
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="script.js"></script>
+
+<script>
+  function myFunction() {
+	  var element = document.body;
+	  element.dataset.bsTheme =
+		element.dataset.bsTheme == "light" ? "dark" : "light";
+	}
+	function stepFunction(event) {
+	  debugger;
+	  var element = document.getElementsByClassName("collapse");
+	  for (var i = 0; i < element.length; i++) {
+		if (element[i] !== event.target.ariaControls) {
+		  element[i].classList.remove("show");
+		}
+	  }
+	}
+</script>
+
+</body>
+</html>
